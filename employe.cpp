@@ -5,6 +5,8 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QRegularExpression>
+#include <QPixmap>
+#include <QPalette>
 
 Employe::Employe(QWidget *parent) :
     QWidget(parent),
@@ -12,8 +14,14 @@ Employe::Employe(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
     // Display all employees initially
     ui->tabMAT->setModel(afficher());
+    QPixmap bkgnd(":/images/rs/background.png");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, bkgnd);
+    this->setPalette(palette);
 }
 
 Employe::~Employe()
@@ -33,7 +41,7 @@ void Employe::on_backButton_clicked()
 bool Employe::ajouter()
 {
     QSqlQuery query;
-    query.prepare("INSERT INTO EMPLOYE (ID_EMPLOYE, NOM, POSTE, EMAIL, STATUT_DEM) "
+    query.prepare("INSERT INTO EMPLOYE (ID_EMPLOYE, NOM, POSTE, EMAIL, STATUT_DEM)"
                   "VALUES (:id, :nom, :poste, :email, :statut)");
     query.bindValue(":id", ui->idE->text().trimmed());
     query.bindValue(":nom", ui->nom->text().trimmed());

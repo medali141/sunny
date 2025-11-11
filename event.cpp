@@ -6,13 +6,21 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QSqlQueryModel>
+#include <QPixmap>
+#include <QPalette>
 
 Event::Event(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Event)
 {
     ui->setupUi(this);
-    rafraichirAffichage(); // Charger les données au démarrage
+    rafraichirAffichage();
+    // Charger les données au démarrage
+    QPixmap bkgnd(":/images/rs/background.png");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, bkgnd);
+    this->setPalette(palette);
 }
 
 Event::~Event()

@@ -26,6 +26,8 @@ private slots:
     void on_Rtri_2_clicked();
     void on_rechID_clicked();
 
+    void on_afficherMar_2_clicked();
+
 private:
     Ui::Matriel *ui;
 

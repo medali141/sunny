@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../event.h"
+#include "../../../../../Desktop/sunny-main/event.h"
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>

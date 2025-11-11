@@ -11,6 +11,8 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -23,12 +25,15 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralwidget;
-    QPushButton *matrielButton;
-    QPushButton *sponsorButton;
-    QPushButton *eventButton;
-    QPushButton *participantButton;
-    QPushButton *employeButton;
     QPushButton *logoutButton;
+    QLabel *label;
+    QWidget *layoutWidget;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *matrielButton;
+    QPushButton *employeButton;
+    QPushButton *eventButton;
+    QPushButton *sponsorButton;
+    QPushButton *participantButton;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -37,26 +42,47 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName("MainWindow");
         MainWindow->resize(1323, 666);
+        MainWindow->setStyleSheet(QString::fromUtf8("backgroundcolor:black"));
+        MainWindow->setDocumentMode(false);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
-        matrielButton = new QPushButton(centralwidget);
-        matrielButton->setObjectName("matrielButton");
-        matrielButton->setGeometry(QRect(20, 120, 90, 29));
-        sponsorButton = new QPushButton(centralwidget);
-        sponsorButton->setObjectName("sponsorButton");
-        sponsorButton->setGeometry(QRect(20, 180, 90, 29));
-        eventButton = new QPushButton(centralwidget);
-        eventButton->setObjectName("eventButton");
-        eventButton->setGeometry(QRect(20, 240, 90, 29));
-        participantButton = new QPushButton(centralwidget);
-        participantButton->setObjectName("participantButton");
-        participantButton->setGeometry(QRect(20, 390, 90, 29));
-        employeButton = new QPushButton(centralwidget);
-        employeButton->setObjectName("employeButton");
-        employeButton->setGeometry(QRect(20, 310, 90, 29));
         logoutButton = new QPushButton(centralwidget);
         logoutButton->setObjectName("logoutButton");
-        logoutButton->setGeometry(QRect(1180, 570, 90, 29));
+        logoutButton->setGeometry(QRect(1220, 570, 90, 29));
+        label = new QLabel(centralwidget);
+        label->setObjectName("label");
+        label->setGeometry(QRect(320, -150, 991, 411));
+        layoutWidget = new QWidget(centralwidget);
+        layoutWidget->setObjectName("layoutWidget");
+        layoutWidget->setGeometry(QRect(140, 140, 971, 91));
+        horizontalLayout = new QHBoxLayout(layoutWidget);
+        horizontalLayout->setObjectName("horizontalLayout");
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        matrielButton = new QPushButton(layoutWidget);
+        matrielButton->setObjectName("matrielButton");
+
+        horizontalLayout->addWidget(matrielButton);
+
+        employeButton = new QPushButton(layoutWidget);
+        employeButton->setObjectName("employeButton");
+
+        horizontalLayout->addWidget(employeButton);
+
+        eventButton = new QPushButton(layoutWidget);
+        eventButton->setObjectName("eventButton");
+
+        horizontalLayout->addWidget(eventButton);
+
+        sponsorButton = new QPushButton(layoutWidget);
+        sponsorButton->setObjectName("sponsorButton");
+
+        horizontalLayout->addWidget(sponsorButton);
+
+        participantButton = new QPushButton(layoutWidget);
+        participantButton->setObjectName("participantButton");
+
+        horizontalLayout->addWidget(participantButton);
+
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -74,12 +100,13 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
-        matrielButton->setText(QCoreApplication::translate("MainWindow", "Matriel", nullptr));
-        sponsorButton->setText(QCoreApplication::translate("MainWindow", "sponsor", nullptr));
-        eventButton->setText(QCoreApplication::translate("MainWindow", "event", nullptr));
-        participantButton->setText(QCoreApplication::translate("MainWindow", "Participant", nullptr));
-        employeButton->setText(QCoreApplication::translate("MainWindow", "Employe", nullptr));
         logoutButton->setText(QCoreApplication::translate("MainWindow", "logout", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:72pt;\">                                                                                  sunny desk </span></p></body></html>", nullptr));
+        matrielButton->setText(QCoreApplication::translate("MainWindow", "Matriel", nullptr));
+        employeButton->setText(QCoreApplication::translate("MainWindow", "Employe", nullptr));
+        eventButton->setText(QCoreApplication::translate("MainWindow", "event", nullptr));
+        sponsorButton->setText(QCoreApplication::translate("MainWindow", "sponsor", nullptr));
+        participantButton->setText(QCoreApplication::translate("MainWindow", "Participant", nullptr));
     } // retranslateUi
 
 };

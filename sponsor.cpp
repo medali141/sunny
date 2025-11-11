@@ -4,6 +4,8 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QPixmap>
+#include <QPalette>
 
 Sponsor::Sponsor(QWidget *parent) :
     QWidget(parent),
@@ -12,6 +14,11 @@ Sponsor::Sponsor(QWidget *parent) :
     ui->setupUi(this);
     // Show all sponsors initially
     ui->tabMAT->setModel(afficher());
+    QPixmap bkgnd(":/images/rs/background.png");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, bkgnd);
+    this->setPalette(palette);
 }
 
 Sponsor::~Sponsor()

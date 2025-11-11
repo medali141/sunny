@@ -146,7 +146,7 @@ public:
         ajoutMat->setText(QCoreApplication::translate("Participant", "Ajouter", nullptr));
         modifierMat->setText(QCoreApplication::translate("Participant", "Modifier", nullptr));
         afficherMar->setText(QCoreApplication::translate("Participant", "Affichage", nullptr));
-        groupBox->setTitle(QCoreApplication::translate("Participant", "event", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("Participant", "Ajouter / Modidier un Participant", nullptr));
         label->setText(QCoreApplication::translate("Participant", "id participant", nullptr));
         label_2->setText(QCoreApplication::translate("Participant", "nom", nullptr));
         label_3->setText(QCoreApplication::translate("Participant", "prenom", nullptr));

@@ -5,6 +5,8 @@
 #include <QSqlQuery>
 #include <QSqlQueryModel>
 #include <QRegularExpression>
+#include <QPixmap>
+#include <QPalette>
 
 Participant::Participant(QWidget *parent) :
     QWidget(parent),
@@ -12,6 +14,11 @@ Participant::Participant(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->tabMAT->setModel(afficher()); // affichage initial
+    QPixmap bkgnd(":/images/rs/background.png");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, bkgnd);
+    this->setPalette(palette);
 }
 
 Participant::~Participant()

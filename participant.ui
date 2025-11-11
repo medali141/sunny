@@ -118,7 +118,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>event</string>
+    <string>Ajouter / Modidier un Participant</string>
    </property>
    <widget class="QLabel" name="label">
     <property name="geometry">

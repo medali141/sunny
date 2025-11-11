@@ -45,6 +45,7 @@ public:
     QPushButton *supprimerMat;
     QRadioButton *Rtri_2;
     QPushButton *modifierMat;
+    QPushButton *afficherMar_2;
 
     void setupUi(QWidget *Matriel)
     {
@@ -53,7 +54,7 @@ public:
         Matriel->resize(1308, 661);
         backButton = new QPushButton(Matriel);
         backButton->setObjectName("backButton");
-        backButton->setGeometry(QRect(1200, 610, 90, 29));
+        backButton->setGeometry(QRect(1189, 598, 101, 41));
         groupBox = new QGroupBox(Matriel);
         groupBox->setObjectName("groupBox");
         groupBox->setGeometry(QRect(30, 30, 351, 271));
@@ -68,25 +69,25 @@ public:
         label_3->setGeometry(QRect(10, 110, 61, 21));
         idMat = new QLineEdit(groupBox);
         idMat->setObjectName("idMat");
-        idMat->setGeometry(QRect(140, 40, 113, 20));
+        idMat->setGeometry(QRect(140, 40, 121, 31));
         nomMat = new QLineEdit(groupBox);
         nomMat->setObjectName("nomMat");
-        nomMat->setGeometry(QRect(140, 80, 113, 20));
+        nomMat->setGeometry(QRect(140, 80, 121, 31));
         Quantite = new QLineEdit(groupBox);
         Quantite->setObjectName("Quantite");
-        Quantite->setGeometry(QRect(140, 120, 113, 20));
+        Quantite->setGeometry(QRect(140, 120, 121, 31));
         label_4 = new QLabel(groupBox);
         label_4->setObjectName("label_4");
         label_4->setGeometry(QRect(10, 151, 91, 20));
         Dispo = new QLineEdit(groupBox);
         Dispo->setObjectName("Dispo");
-        Dispo->setGeometry(QRect(140, 160, 113, 20));
+        Dispo->setGeometry(QRect(140, 160, 121, 31));
         idMAT_Delete = new QLineEdit(Matriel);
         idMAT_Delete->setObjectName("idMAT_Delete");
         idMAT_Delete->setGeometry(QRect(30, 480, 131, 31));
         rechID = new QPushButton(Matriel);
         rechID->setObjectName("rechID");
-        rechID->setGeometry(QRect(940, 470, 131, 61));
+        rechID->setGeometry(QRect(940, 470, 241, 61));
         ajoutMat = new QPushButton(Matriel);
         ajoutMat->setObjectName("ajoutMat");
         ajoutMat->setGeometry(QRect(50, 330, 131, 61));
@@ -101,7 +102,7 @@ public:
         Rtri->setGeometry(QRect(600, 480, 141, 25));
         tabMAT = new QTableView(Matriel);
         tabMAT->setObjectName("tabMAT");
-        tabMAT->setGeometry(QRect(450, 50, 611, 401));
+        tabMAT->setGeometry(QRect(450, 50, 721, 401));
         supprimerMat = new QPushButton(Matriel);
         supprimerMat->setObjectName("supprimerMat");
         supprimerMat->setGeometry(QRect(190, 470, 131, 61));
@@ -111,6 +112,9 @@ public:
         modifierMat = new QPushButton(Matriel);
         modifierMat->setObjectName("modifierMat");
         modifierMat->setGeometry(QRect(200, 330, 131, 61));
+        afficherMar_2 = new QPushButton(Matriel);
+        afficherMar_2->setObjectName("afficherMar_2");
+        afficherMar_2->setGeometry(QRect(450, 540, 131, 61));
 
         retranslateUi(Matriel);
 
@@ -121,7 +125,7 @@ public:
     {
         Matriel->setWindowTitle(QCoreApplication::translate("Matriel", "Form", nullptr));
         backButton->setText(QCoreApplication::translate("Matriel", "back", nullptr));
-        groupBox->setTitle(QCoreApplication::translate("Matriel", "Ajouter/Modifier  Matriel", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("Matriel", "Ajouter/Modifier un  Matriel", nullptr));
         label->setText(QCoreApplication::translate("Matriel", "idMAT", nullptr));
         label_2->setText(QCoreApplication::translate("Matriel", "nomMAT", nullptr));
         label_3->setText(QCoreApplication::translate("Matriel", "Quantite", nullptr));
@@ -133,6 +137,7 @@ public:
         supprimerMat->setText(QCoreApplication::translate("Matriel", "Supprimer", nullptr));
         Rtri_2->setText(QCoreApplication::translate("Matriel", "tri par % Nom Matricule ", nullptr));
         modifierMat->setText(QCoreApplication::translate("Matriel", "Modifier", nullptr));
+        afficherMar_2->setText(QCoreApplication::translate("Matriel", "Affichage", nullptr));
     } // retranslateUi
 
 };

@@ -1,3 +1,4 @@
+debug/createaccount.o
 debug/employe.o
 debug/event.o
 debug/login.o
@@ -7,6 +8,8 @@ debug/connection.o
 debug/matriel.o
 debug/participant.o
 debug/sponsor.o
+debug/qrc_resources.o
+debug/moc_createaccount.o
 debug/moc_employe.o
 debug/moc_event.o
 debug/moc_login.o

@@ -5,6 +5,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG += c++17
 
 SOURCES += \
+    createaccount.cpp \
     employe.cpp \
     event.cpp \
     login.cpp \
@@ -16,6 +17,7 @@ SOURCES += \
     sponsor.cpp
 
 HEADERS += \
+    createaccount.h \
     employe.h \
     event.h \
     login.h \
@@ -26,6 +28,7 @@ HEADERS += \
     sponsor.h
 
 FORMS += \
+    createaccount.ui \
     employe.ui \
     event.ui \
     login.ui \
@@ -34,7 +37,16 @@ FORMS += \
     participant.ui \
     sponsor.ui
 
+RESOURCES += resources.qrc
+
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    SunnyDesk.qss
+
+RESOURCES += \
+    resources.qrc

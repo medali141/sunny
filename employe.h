@@ -1,6 +1,5 @@
 #ifndef EMPLOYE_H
 #define EMPLOYE_H
-
 #include <QWidget>
 #include <QSqlQuery>
 #include <QSqlQueryModel>

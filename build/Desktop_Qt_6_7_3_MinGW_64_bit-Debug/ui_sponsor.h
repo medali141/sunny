@@ -122,7 +122,7 @@ public:
         ajoutMat->setText(QCoreApplication::translate("Sponsor", "Ajouter", nullptr));
         modifierMat->setText(QCoreApplication::translate("Sponsor", "Modifier", nullptr));
         afficherMar->setText(QCoreApplication::translate("Sponsor", "Affichage", nullptr));
-        groupBox->setTitle(QCoreApplication::translate("Sponsor", "event", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("Sponsor", "Ajouter / Modidier un Sponsor", nullptr));
         label->setText(QCoreApplication::translate("Sponsor", "is sponsor", nullptr));
         label_2->setText(QCoreApplication::translate("Sponsor", "nom", nullptr));
         label_3->setText(QCoreApplication::translate("Sponsor", "niveau", nullptr));

@@ -50,6 +50,8 @@ public:
         if (Employe->objectName().isEmpty())
             Employe->setObjectName("Employe");
         Employe->resize(1317, 699);
+        Employe->setStyleSheet(QString::fromUtf8("color:black\n"
+""));
         backButton = new QPushButton(Employe);
         backButton->setObjectName("backButton");
         backButton->setGeometry(QRect(1210, 580, 90, 29));
@@ -79,22 +81,22 @@ public:
         label_3->setGeometry(QRect(10, 110, 61, 21));
         idE = new QLineEdit(groupBox);
         idE->setObjectName("idE");
-        idE->setGeometry(QRect(140, 40, 113, 20));
+        idE->setGeometry(QRect(140, 40, 141, 31));
         nom = new QLineEdit(groupBox);
         nom->setObjectName("nom");
-        nom->setGeometry(QRect(140, 80, 113, 20));
+        nom->setGeometry(QRect(140, 80, 141, 31));
         poste = new QLineEdit(groupBox);
         poste->setObjectName("poste");
-        poste->setGeometry(QRect(140, 120, 113, 20));
+        poste->setGeometry(QRect(140, 120, 141, 31));
         label_4 = new QLabel(groupBox);
         label_4->setObjectName("label_4");
         label_4->setGeometry(QRect(10, 151, 91, 20));
         email = new QLineEdit(groupBox);
         email->setObjectName("email");
-        email->setGeometry(QRect(140, 160, 113, 20));
+        email->setGeometry(QRect(140, 160, 141, 31));
         statut_dem = new QLineEdit(groupBox);
         statut_dem->setObjectName("statut_dem");
-        statut_dem->setGeometry(QRect(140, 210, 113, 20));
+        statut_dem->setGeometry(QRect(140, 210, 141, 31));
         label_5 = new QLabel(groupBox);
         label_5->setObjectName("label_5");
         label_5->setGeometry(QRect(10, 210, 91, 20));
@@ -123,7 +125,7 @@ public:
         rechID->setText(QCoreApplication::translate("Employe", "Rechercher par ID", nullptr));
         modifierMat->setText(QCoreApplication::translate("Employe", "Modifier", nullptr));
         supprimerMat->setText(QCoreApplication::translate("Employe", "Supprimer", nullptr));
-        groupBox->setTitle(QCoreApplication::translate("Employe", "Employe", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("Employe", "Ajouter / Modidier un Employe(e)", nullptr));
         label->setText(QCoreApplication::translate("Employe", "Id Employe", nullptr));
         label_2->setText(QCoreApplication::translate("Employe", "Nom", nullptr));
         label_3->setText(QCoreApplication::translate("Employe", "Poste", nullptr));

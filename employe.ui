@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">color:black
+</string>
+  </property>
   <widget class="QPushButton" name="backButton">
    <property name="geometry">
     <rect>
@@ -85,7 +89,7 @@
     </rect>
    </property>
    <property name="title">
-    <string>Employe</string>
+    <string>Ajouter / Modidier un Employe(e)</string>
    </property>
    <widget class="QLabel" name="label">
     <property name="geometry">
@@ -131,8 +135,8 @@
      <rect>
       <x>140</x>
       <y>40</y>
-      <width>113</width>
-      <height>20</height>
+      <width>141</width>
+      <height>31</height>
      </rect>
     </property>
    </widget>
@@ -141,8 +145,8 @@
      <rect>
       <x>140</x>
       <y>80</y>
-      <width>113</width>
-      <height>20</height>
+      <width>141</width>
+      <height>31</height>
      </rect>
     </property>
    </widget>
@@ -151,8 +155,8 @@
      <rect>
       <x>140</x>
       <y>120</y>
-      <width>113</width>
-      <height>20</height>
+      <width>141</width>
+      <height>31</height>
      </rect>
     </property>
    </widget>
@@ -174,8 +178,8 @@
      <rect>
       <x>140</x>
       <y>160</y>
-      <width>113</width>
-      <height>20</height>
+      <width>141</width>
+      <height>31</height>
      </rect>
     </property>
    </widget>
@@ -184,8 +188,8 @@
      <rect>
       <x>140</x>
       <y>210</y>
-      <width>113</width>
-      <height>20</height>
+      <width>141</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="text">

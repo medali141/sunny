@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../../../sponsor.h"
+#include "../../../../../Desktop/sunny-main/sponsor.h"
 #include <QtCore/qmetatype.h>
 
 #include <QtCore/qtmochelpers.h>

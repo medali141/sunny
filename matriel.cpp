@@ -4,12 +4,20 @@
 #include <QMessageBox>
 #include <QSqlQuery>
 #include <QSqlQueryModel>
+#include <QPixmap>
+#include <QPalette>
 
 Matriel::Matriel(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Matriel)
 {
     ui->setupUi(this);
+    QPixmap bkgnd(":/images/rs/background.png");
+    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
+    QPalette palette;
+    palette.setBrush(QPalette::Window, bkgnd);
+    this->setPalette(palette);
+
 
     // Display all matriels initially
     ui->tabMAT->setModel(afficher());
@@ -217,3 +225,5 @@ void Matriel::on_rechID_clicked()
 {
     ui->tabMAT->setModel(rechercher());
 }
+
+
