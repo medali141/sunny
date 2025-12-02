@@ -1,24 +1,25 @@
 #include "connection.h"
-#include <QDebug>
 
 Connection::Connection()
 {
+    // Initialize the database connection name
+    db = QSqlDatabase::addDatabase("QODBC");
 }
 
 bool Connection::createconnect()
 {
-    bool test = false;
-    QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
-    // Try direct connection string instead of DSN
-    db.setDatabaseName("DRIVER={Oracle in XE};SERVER=localhost;PORT=1521;DATABASE=xe;UID=Rayensql;PWD=esprit25;");
+    db.setDatabaseName("TNS Service Name");  // Replace with your actual ODBC source
+    db.setUserName("rayensql");              // Username
+    db.setPassword("esprit25");              // Password
+
     if (db.open())
-    {
-        test = true;
-    }
+        return true;
     else
-    {
-        qDebug() << "Error:" << db.lastError().text();
-    }
-    return test;
+        return false;
 }
 
+void Connection::closeConnection()
+{
+    if (db.isOpen())
+        db.close();
+}
