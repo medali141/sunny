@@ -11,11 +11,11 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-
+    // Charger la feuille de style
     QFile styleFile(":/sunnydesk.qss");
     if (!styleFile.exists()) {
         styleFile.setFileName("C:\\Users\\med ali chihaoui\\Documents\\sunnyDesk\\sunnydesk.qss");
-        // fallback if not in resource
+        // fallback si pas dans les ressources
     }
     if (styleFile.open(QFile::ReadOnly)) {
         QString style = QLatin1String(styleFile.readAll());
@@ -23,6 +23,7 @@ int main(int argc, char *argv[])
         styleFile.close();
     }
 
+    // Connexion à la base de données
     Connection c;
     bool test = c.createconnect();
 
@@ -40,4 +41,3 @@ int main(int argc, char *argv[])
         return -1;
     }
 }
-
