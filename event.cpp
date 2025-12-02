@@ -88,14 +88,14 @@ void Event::on_ajoutMat_clicked()
     QString remarque = ui->remarque->text();
 
     QSqlQuery query;
-    query.prepare("INSERT INTO EVENMENT (ID_EVENT, NOMEVENT, DATEE, RESPONSABLE, STATUT, RAMARQUE) "
-                  "VALUES (:id, :nom, :datee, :responsable, :statut, :ramarque)");
+    query.prepare("INSERT INTO EVENMENT (ID_EVENT, NOMEVENT, DATEE, RESPONSABLE, STATUT, REMARQUE) "
+                  "VALUES (:id, :nom, :datee, :responsable, :statut, :remarque)");
     query.bindValue(":id", id);
     query.bindValue(":nom", nom);
     query.bindValue(":datee", date);
     query.bindValue(":responsable", responsable);
     query.bindValue(":statut", statut);
-    query.bindValue(":ramarque", remarque);
+    query.bindValue(":remarque", remarque);
 
     if (query.exec()) {
         QMessageBox::information(this, "Succès", "Événement ajouté avec succès !");
@@ -120,13 +120,13 @@ void Event::on_modifierMat_clicked()
 
     QSqlQuery query;
     query.prepare("UPDATE EVENMENT SET NOMEVENT=:nom, DATEE=:datee, RESPONSABLE=:responsable, "
-                  "STATUT=:statut, RAMARQUE=:ramarque WHERE ID_EVENT=:id");
+                  "STATUT=:statut, REMARQUE=:remarque WHERE ID_EVENT=:id");
     query.bindValue(":id", id);
     query.bindValue(":nom", nom);
     query.bindValue(":datee", date);
     query.bindValue(":responsable", responsable);
     query.bindValue(":statut", statut);
-    query.bindValue(":ramarque", remarque);
+    query.bindValue(":remarque", remarque);
 
     if (query.exec() && query.numRowsAffected() > 0) {
         QMessageBox::information(this, "Succès", "Événement modifié avec succès !");
