@@ -1,0 +1,9 @@
+# Qt and build artifacts
+build/
+*.pro.user
+*.o
+*.exe
+*.obj
+*.idea/
+*.user
+.DS_Store
