@@ -398,112 +398,226 @@ void Sponsor::on_Qrcode_clicked()
     );
 }
 
+
 void Sponsor::on_stat_clicked()
 {
-    Statistiques *statDialog = new Statistiques(this);
-    statDialog->exec();
-    delete statDialog;
+
 }
+
+
+
 void Sponsor::on_pdf_clicked()
 {
-    QString fileName = QFileDialog::getSaveFileName(
-        this,
-        tr("Exporter en PDF"),
-        QDir::homePath() + "/sponsors.pdf",
-        tr("Fichiers PDF (*.pdf)")
-        );
+    // Demander à l'utilisateur où sauvegarder le PDF
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Enregistrer le PDF"),
+                                                    QDir::homePath() + "/sponsors_" + QDateTime::currentDateTime().toString("yyyyMMdd_hhmmss") + ".pdf",
+                                                    tr("Fichiers PDF (*.pdf)"));
 
-    if (fileName.isEmpty()) return;
-
-    if (!fileName.endsWith(".pdf", Qt::CaseInsensitive))
-        fileName += ".pdf";
-
-    QPrinter printer(QPrinter::HighResolution);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName(fileName);
-    printer.setPageSize(QPageSize::A4);
-    printer.setPageOrientation(QPageLayout::Portrait);
-
-    QPainter painter;
-    if (!painter.begin(&printer)) {
-        QMessageBox::warning(this, "Erreur", "Impossible de créer le fichier PDF.");
+    if (fileName.isEmpty()) {
         return;
     }
 
-    int margin = 50;
-    int y = margin;
-    int pageWidth = printer.pageRect(QPrinter::Point).width();
-        if (y > printer.pageRect(QPrinter::Point).height() - 80) {
+    // Créer le PDF writer
+    QPdfWriter pdfWriter(fileName);
+    pdfWriter.setPageSize(QPageSize::A4);
+    pdfWriter.setPageMargins(QMarginsF(15, 15, 15, 15));
 
-     int colWidth = pageWidth / 4;
+    QPainter painter(&pdfWriter);
 
-    QFont titleFont("Arial", 20, QFont::Bold);
-    QFont headerFont("Arial", 12, QFont::Bold);
-    QFont textFont("Arial", 11);
-
-    // Titre
-    painter.setFont(titleFont);
-    painter.drawText(margin, y, "Liste des Sponsors");
-    y += 60;
-
-    // Date
-    painter.setFont(textFont);
-    painter.drawText(margin, y, "Date d'exportation : " + QDateTime::currentDateTime().toString("dd/MM/yyyy hh:mm"));
-    y += 40;
-
-    // En-têtes
-    painter.setFont(headerFont);
-    painter.drawText(margin, y, "ID");
-    painter.drawText(margin + colWidth, y, "Nom");
-    painter.drawText(margin + colWidth * 2, y, "Niveau");
-    painter.drawText(margin + colWidth * 3, y, "Pourcentage");
-    y += 25;
-
-    painter.drawLine(margin, y, pageWidth - margin, y);
-    y += 20;
-
-    // Données
-    painter.setFont(textFont);
-    QSqlQuery query("SELECT id_sponsor, nom, niveau, pourcentage FROM SPONSOR");
-
-    int rowCount = 0;
-
-    while (query.next()) {
-
-        // Pagination auto
-        if (y > printer.pageRect(QPrinter::Point).height() - 80) {
-            printer.newPage();
-            y = margin + 40;
-
-            painter.setFont(headerFont);
-            painter.drawText(margin, y, "ID");
-            painter.drawText(margin + colWidth, y, "Nom");
-            painter.drawText(margin + colWidth * 2, y, "Niveau");
-            painter.drawText(margin + colWidth * 3, y, "Pourcentage");
-            y += 25;
-
-            painter.drawLine(margin, y, pageWidth - margin, y);
-            y += 20;
-
-            painter.setFont(textFont);
-        }
-
-        painter.drawText(margin, y, query.value(0).toString());
-        painter.drawText(margin + colWidth, y, query.value(1).toString());
-        painter.drawText(margin + colWidth * 2, y, query.value(2).toString());
-        painter.drawText(margin + colWidth * 3, y, query.value(3).toString() + "%");
-
-        y += 25;
-        rowCount++;
+    if (!painter.isActive()) {
+        QMessageBox::critical(this, "Erreur", "Impossible de créer le PDF.");
+        return;
     }
 
-    // Pied
-    y += 30;
-    painter.setFont(headerFont);
-    painter.drawText(margin, y, QString("Total : %1 sponsor(s)").arg(rowCount));
+    // Configuration des polices
+    QFont titleFont("Arial", 24, QFont::Bold);
+    QFont subtitleFont("Arial", 11);
+    QFont headerFont("Arial", 11, QFont::Bold);
+    QFont normalFont("Arial", 10);
 
+    int yPos = 800;
+    int leftMargin = 400;
+    int rightMargin = pdfWriter.width() - 400;
+    int pageWidth = rightMargin - leftMargin;
+    int lineHeight = 550;
+
+    // === TITRE DU DOCUMENT ===
+    painter.setFont(titleFont);
+    painter.drawText(QRect(leftMargin, yPos, pageWidth, 1000),
+                     Qt::AlignCenter,
+                     "LISTE DES SPONSORS");
+    yPos += 1200;
+
+    // Date de génération
+    painter.setFont(subtitleFont);
+    QString dateGeneration = "Généré le : " + QDateTime::currentDateTime().toString("dd/MM/yyyy à HH:mm");
+    painter.drawText(QRect(leftMargin, yPos, pageWidth, 500),
+                     Qt::AlignCenter,
+                     dateGeneration);
+    yPos += 700;
+
+    // Ligne de séparation épaisse
+    painter.setPen(QPen(Qt::black, 3));
+    painter.drawLine(leftMargin, yPos, rightMargin, yPos);
+    yPos += 800;
+
+    // === RÉCUPÉRER LES DONNÉES ===
+    // Compter d'abord le nombre total
+    QSqlQuery countQuery;
+    countQuery.prepare("SELECT COUNT(*) FROM SPONSOR");
+    int totalSponsors = 0;
+
+    if (countQuery.exec() && countQuery.next()) {
+        totalSponsors = countQuery.value(0).toInt();
+    }
+
+    // Afficher le total
+    painter.setFont(headerFont);
+    painter.setPen(QPen(Qt::black, 2));
+    painter.drawText(leftMargin, yPos, "Nombre total de sponsors : " + QString::number(totalSponsors));
+    yPos += 900;
+
+    // === CALCULER LES LARGEURS DES COLONNES ===
+    int colWidth1 = pageWidth * 0.20;  // 20% - ID
+    int colWidth2 = pageWidth * 0.35;  // 35% - NOM
+    int colWidth3 = pageWidth * 0.25;  // 25% - NIVEAU
+    int colWidth4 = pageWidth * 0.20;  // 20% - POURCENTAGE
+
+    int col1 = leftMargin;
+    int col2 = col1 + colWidth1;
+    int col3 = col2 + colWidth2;
+    int col4 = col3 + colWidth3;
+
+    // === EN-TÊTES DES COLONNES AVEC FOND ===
+    painter.setFont(headerFont);
+
+    // Dessiner le fond gris pour l'en-tête
+    painter.fillRect(leftMargin, yPos - 100, pageWidth, 600, QColor(220, 220, 220));
+
+    // Bordures de l'en-tête
+    painter.setPen(QPen(Qt::black, 2));
+    painter.drawRect(leftMargin, yPos - 100, pageWidth, 600);
+
+    // Lignes verticales séparatrices
+    painter.drawLine(col2, yPos - 100, col2, yPos + 500);
+    painter.drawLine(col3, yPos - 100, col3, yPos + 500);
+    painter.drawLine(col4, yPos - 100, col4, yPos + 500);
+
+    // Texte des en-têtes (centré verticalement)
+    int headerTextY = yPos + 250;
+    painter.drawText(QRect(col1 + 50, yPos - 100, colWidth1 - 100, 600),
+                     Qt::AlignVCenter | Qt::AlignLeft, "ID SPONSOR");
+    painter.drawText(QRect(col2 + 50, yPos - 100, colWidth2 - 100, 600),
+                     Qt::AlignVCenter | Qt::AlignLeft, "NOM");
+    painter.drawText(QRect(col3 + 50, yPos - 100, colWidth3 - 100, 600),
+                     Qt::AlignVCenter | Qt::AlignLeft, "NIVEAU");
+    painter.drawText(QRect(col4 + 50, yPos - 100, colWidth4 - 100, 600),
+                     Qt::AlignVCenter | Qt::AlignLeft, "POURCENTAGE");
+
+    yPos += 600;
+
+    // === DONNÉES DES SPONSORS ===
+    QSqlQuery query;
+    query.prepare("SELECT * FROM SPONSOR ORDER BY NOM");
+
+    if (!query.exec()) {
+        QMessageBox::critical(this, "Erreur", "Impossible de récupérer les données : " + query.lastError().text());
+        painter.end();
+        return;
+    }
+
+    painter.setFont(normalFont);
+    painter.setPen(QPen(Qt::black, 1));
+
+    int rowCount = 0;
+    bool alternateBg = false;
+
+    while (query.next()) {
+        rowCount++;
+
+        // Vérifier si on doit passer à une nouvelle page
+        if (yPos > pdfWriter.height() - 1500) {
+            pdfWriter.newPage();
+            yPos = 800;
+
+            // Redessiner les en-têtes sur la nouvelle page
+            painter.setFont(headerFont);
+            painter.fillRect(leftMargin, yPos - 100, pageWidth, 600, QColor(220, 220, 220));
+            painter.setPen(QPen(Qt::black, 2));
+            painter.drawRect(leftMargin, yPos - 100, pageWidth, 600);
+            painter.drawLine(col2, yPos - 100, col2, yPos + 500);
+            painter.drawLine(col3, yPos - 100, col3, yPos + 500);
+            painter.drawLine(col4, yPos - 100, col4, yPos + 500);
+
+            painter.drawText(QRect(col1 + 50, yPos - 100, colWidth1 - 100, 600),
+                             Qt::AlignVCenter | Qt::AlignLeft, "ID SPONSOR");
+            painter.drawText(QRect(col2 + 50, yPos - 100, colWidth2 - 100, 600),
+                             Qt::AlignVCenter | Qt::AlignLeft, "NOM");
+            painter.drawText(QRect(col3 + 50, yPos - 100, colWidth3 - 100, 600),
+                             Qt::AlignVCenter | Qt::AlignLeft, "NIVEAU");
+            painter.drawText(QRect(col4 + 50, yPos - 100, colWidth4 - 100, 600),
+                             Qt::AlignVCenter | Qt::AlignLeft, "POURCENTAGE");
+
+            yPos += 600;
+            painter.setFont(normalFont);
+            alternateBg = false;
+        }
+
+        // Fond alterné pour les lignes (zebra striping)
+        if (alternateBg) {
+            painter.fillRect(leftMargin, yPos, pageWidth, lineHeight, QColor(245, 245, 245));
+        }
+        alternateBg = !alternateBg;
+
+        // Récupérer les données
+        QString id = query.value("ID_SPONSOR").toString();
+        QString nom = query.value("NOM").toString();
+        QString niveau = query.value("NIVEAU").toString();
+        QString pourcentage = query.value("POURCENTAGE").toString() + "%";
+
+        // Bordures de la ligne
+        painter.setPen(QPen(QColor(200, 200, 200), 1));
+        painter.drawRect(leftMargin, yPos, pageWidth, lineHeight);
+        painter.drawLine(col2, yPos, col2, yPos + lineHeight);
+        painter.drawLine(col3, yPos, col3, yPos + lineHeight);
+        painter.drawLine(col4, yPos, col4, yPos + lineHeight);
+
+        // Afficher les données (centrées verticalement)
+        painter.setPen(QPen(Qt::black, 1));
+        painter.drawText(QRect(col1 + 50, yPos, colWidth1 - 100, lineHeight),
+                         Qt::AlignVCenter | Qt::AlignLeft, id);
+        painter.drawText(QRect(col2 + 50, yPos, colWidth2 - 100, lineHeight),
+                         Qt::AlignVCenter | Qt::AlignLeft, nom);
+        painter.drawText(QRect(col3 + 50, yPos, colWidth3 - 100, lineHeight),
+                         Qt::AlignVCenter | Qt::AlignLeft, niveau);
+        painter.drawText(QRect(col4 + 50, yPos, colWidth4 - 100, lineHeight),
+                         Qt::AlignVCenter | Qt::AlignLeft, pourcentage);
+
+        yPos += lineHeight;
+    }
+
+    // === PIED DE PAGE ===
+    yPos = pdfWriter.height() - 800;
+
+    painter.setPen(QPen(Qt::black, 2));
+    painter.drawLine(leftMargin, yPos, rightMargin, yPos);
+    yPos += 400;
+
+    QFont footerFont("Arial", 9);
+    footerFont.setItalic(true);
+    painter.setFont(footerFont);
+    painter.setPen(QPen(Qt::darkGray, 1));
+    painter.drawText(QRect(leftMargin, yPos, pageWidth, 500),
+                     Qt::AlignCenter,
+                     "SunnyDesk - Gestion des Sponsors");
+
+    // Terminer le document
     painter.end();
 
-    QMessageBox::information(this, "Succès", "PDF généré avec succès !");
-}
+    // Message de confirmation
+    QMessageBox::information(this, "Succès",
+                             "Le PDF a été généré avec succès !\n\n" +
+                                 QString::number(totalSponsors) + " sponsor(s) exporté(s).\n\n" +
+                                 "Fichier : " + fileName);
 }

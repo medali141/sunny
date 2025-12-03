@@ -104,7 +104,7 @@ void Sponsor::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 5: _t->on_rechID_clicked(); break;
         case 6: _t->on_send_mail_clicked(); break;
         case 7: _t->on_Qrcode_clicked(); break;
-        case 8: _t->on_stat_clicked(); break;
+        //case 8: _t->on_stat_clicked(); break;
         case 9: _t->on_pdf_clicked(); break;
         default: ;
         }
