@@ -8,6 +8,7 @@
 #include <QSqlQueryModel>
 #include <QPixmap>
 #include <QPalette>
+#include <QRegularExpression>
 
 Event::Event(QWidget *parent) :
     QWidget(parent),
@@ -15,7 +16,8 @@ Event::Event(QWidget *parent) :
 {
     ui->setupUi(this);
     rafraichirAffichage();
-    // Charger les données au démarrage
+
+    // --- Background ---
     QPixmap bkgnd(":/images/rs/background.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
@@ -37,7 +39,7 @@ bool Event::controleSaisie()
     QString responsable = ui->responsable->text().trimmed();
     QString statut = ui->statut->text().trimmed();
 
-    // Vérification ID (minimum 3 caractères)
+    // Vérification ID
     if (id.length() < 3) {
         QMessageBox::warning(this, "Erreur", "L'ID doit contenir au moins 3 caractères.");
         return false;
@@ -49,7 +51,7 @@ bool Event::controleSaisie()
         return false;
     }
 
-    // Vérification du format de date (JJ/MM/AAAA)
+    // Vérification du format de la date (JJ/MM/AAAA)
     QRegularExpression regexDate("^\\d{2}/\\d{2}/\\d{4}$");
     if (!regexDate.match(date).hasMatch()) {
         QMessageBox::warning(this, "Erreur", "Le format de la date doit être JJ/MM/AAAA.");
@@ -88,20 +90,24 @@ void Event::on_ajoutMat_clicked()
     QString remarque = ui->remarque->text();
 
     QSqlQuery query;
-    query.prepare("INSERT INTO EVENMENT (ID_EVENT, NOMEVENT, DATEE, RESPONSABLE, STATUT, RAMARQUE) "
-                  "VALUES (:id, :nom, :datee, :responsable, :statut, :ramarque)");
+    query.prepare(
+        "INSERT INTO EVENMENT (ID_EVENT, NOMEVENT, DATEE, RESPONSABLE, STATUT, REMARQUE) "
+        "VALUES (:id, :nom, TO_DATE(:datee, 'DD/MM/YYYY'), :responsable, :statut, :remarque)"
+        );
+
     query.bindValue(":id", id);
     query.bindValue(":nom", nom);
     query.bindValue(":datee", date);
     query.bindValue(":responsable", responsable);
     query.bindValue(":statut", statut);
-    query.bindValue(":ramarque", remarque);
+    query.bindValue(":remarque", remarque);
 
     if (query.exec()) {
         QMessageBox::information(this, "Succès", "Événement ajouté avec succès !");
-        rafraichirAffichage();  // 🔄 Rafraîchit après ajout
+        rafraichirAffichage();
     } else {
-        QMessageBox::critical(this, "Erreur", "Échec de l'ajout : " + query.lastError().text());
+        QMessageBox::critical(this, "Erreur SQL", query.lastError().text());
+        qDebug() << "Erreur SQL (ajout):" << query.lastError().text();
     }
 }
 
@@ -119,20 +125,25 @@ void Event::on_modifierMat_clicked()
     QString remarque = ui->remarque->text();
 
     QSqlQuery query;
-    query.prepare("UPDATE EVENMENT SET NOMEVENT=:nom, DATEE=:datee, RESPONSABLE=:responsable, "
-                  "STATUT=:statut, RAMARQUE=:ramarque WHERE ID_EVENT=:id");
+    query.prepare(
+        "UPDATE EVENMENT SET NOMEVENT=:nom, DATEE=TO_DATE(:datee, 'DD/MM/YYYY'), "
+        "RESPONSABLE=:responsable, STATUT=:statut, REMARQUE=:remarque "
+        "WHERE ID_EVENT=:id"
+        );
+
     query.bindValue(":id", id);
     query.bindValue(":nom", nom);
     query.bindValue(":datee", date);
     query.bindValue(":responsable", responsable);
     query.bindValue(":statut", statut);
-    query.bindValue(":ramarque", remarque);
+    query.bindValue(":remarque", remarque);
 
     if (query.exec() && query.numRowsAffected() > 0) {
         QMessageBox::information(this, "Succès", "Événement modifié avec succès !");
-        rafraichirAffichage();  // 🔄 Rafraîchit après modif
+        rafraichirAffichage();
     } else {
-        QMessageBox::critical(this, "Erreur", "Échec de la modification ou ID introuvable.");
+        QMessageBox::critical(this, "Erreur SQL", "Échec de la modification : " + query.lastError().text());
+        qDebug() << "Erreur SQL (modif):" << query.lastError().text();
     }
 }
 
@@ -152,9 +163,10 @@ void Event::on_supprimerMat_clicked()
 
     if (query.exec() && query.numRowsAffected() > 0) {
         QMessageBox::information(this, "Succès", "Événement supprimé avec succès !");
-        rafraichirAffichage();  // 🔄 Rafraîchit après suppression
+        rafraichirAffichage();
     } else {
-        QMessageBox::critical(this, "Erreur", "Échec de suppression ou ID introuvable.");
+        QMessageBox::critical(this, "Erreur SQL", "Échec de la suppression : " + query.lastError().text());
+        qDebug() << "Erreur SQL (suppression):" << query.lastError().text();
     }
 }
 
@@ -174,7 +186,7 @@ void Event::on_rechID_clicked()
     }
 
     QSqlQueryModel *model = new QSqlQueryModel();
-    model->setQuery("SELECT * FROM EVENMENT WHERE ID_EVENT = '" + id + "'");
+    model->setQuery("SELECT * FROM EVENMENT WHERE ID_EVENT LIKE '%" + id + "%'");
     ui->tabMAT->setModel(model);
 }
 

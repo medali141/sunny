@@ -7,7 +7,9 @@ release/mainwindow.o
 release/connection.o
 release/matriel.o
 release/participant.o
+release/qrcodegen.o
 release/sponsor.o
+release/statistiques.o
 release/qrc_resources.o
 release/moc_createaccount.o
 release/moc_employe.o
@@ -17,3 +19,4 @@ release/moc_mainwindow.o
 release/moc_matriel.o
 release/moc_participant.o
 release/moc_sponsor.o
+release/moc_statistiques.o

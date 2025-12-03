@@ -30,6 +30,14 @@ private slots:
     void on_afficherMar_clicked();
     void on_rechID_clicked();
 
+    void on_send_mail_clicked();
+
+    void on_Qrcode_clicked();
+
+    void on_stat_clicked();
+
+    void on_pdf_clicked();
+
 private:
     Ui::Sponsor *ui;
 };

@@ -102,10 +102,10 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         logoutButton->setText(QCoreApplication::translate("MainWindow", "logout", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "<html><head/><body><p><span style=\" font-size:72pt;\">                                                                                  sunny desk </span></p></body></html>", nullptr));
-        matrielButton->setText(QCoreApplication::translate("MainWindow", "Matriel", nullptr));
+        matrielButton->setText(QCoreApplication::translate("MainWindow", "Materiel", nullptr));
         employeButton->setText(QCoreApplication::translate("MainWindow", "Employe", nullptr));
-        eventButton->setText(QCoreApplication::translate("MainWindow", "event", nullptr));
-        sponsorButton->setText(QCoreApplication::translate("MainWindow", "sponsor", nullptr));
+        eventButton->setText(QCoreApplication::translate("MainWindow", "Evenement", nullptr));
+        sponsorButton->setText(QCoreApplication::translate("MainWindow", "Sponsor", nullptr));
         participantButton->setText(QCoreApplication::translate("MainWindow", "Participant", nullptr));
     } // retranslateUi
 

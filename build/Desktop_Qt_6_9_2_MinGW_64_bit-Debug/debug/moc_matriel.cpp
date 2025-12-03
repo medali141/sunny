@@ -47,7 +47,7 @@ template <> constexpr inline auto Matriel::qt_create_metaobjectdata<qt_meta_tag_
         "on_Rtri_clicked",
         "on_Rtri_2_clicked",
         "on_rechID_clicked",
-        "on_afficherMar_clicked"
+        "on_afficherMar_2_clicked"
     };
 
     QtMocHelpers::UintData qt_methods {
@@ -65,7 +65,7 @@ template <> constexpr inline auto Matriel::qt_create_metaobjectdata<qt_meta_tag_
         QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPrivate, QMetaType::Void),
         // Slot 'on_rechID_clicked'
         QtMocHelpers::SlotData<void()>(8, 2, QMC::AccessPrivate, QMetaType::Void),
-        // Slot 'on_afficherMar_clicked'
+        // Slot 'on_afficherMar_2_clicked'
         QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPrivate, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
@@ -97,7 +97,6 @@ void Matriel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 4: _t->on_Rtri_clicked(); break;
         case 5: _t->on_Rtri_2_clicked(); break;
         case 6: _t->on_rechID_clicked(); break;
-
         default: ;
         }
     }

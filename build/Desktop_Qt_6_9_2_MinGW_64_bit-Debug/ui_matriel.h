@@ -121,7 +121,7 @@ public:
     {
         Matriel->setWindowTitle(QCoreApplication::translate("Matriel", "Form", nullptr));
         backButton->setText(QCoreApplication::translate("Matriel", "back", nullptr));
-        groupBox->setTitle(QCoreApplication::translate("Matriel", "Ajouter/Modifier un  Matriel", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("Matriel", "Ajouter/Modifier un  Materiel", nullptr));
         label->setText(QCoreApplication::translate("Matriel", "idMAT", nullptr));
         label_2->setText(QCoreApplication::translate("Matriel", "nomMAT", nullptr));
         label_3->setText(QCoreApplication::translate("Matriel", "Quantite", nullptr));
