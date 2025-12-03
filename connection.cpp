@@ -11,6 +11,7 @@ bool Connection::createconnect()
     QSqlDatabase db = QSqlDatabase::addDatabase("QODBC");
     // Try direct connection string instead of DSN
     db.setDatabaseName("DRIVER={Oracle in XE};SERVER=localhost;PORT=1521;DATABASE=xe;UID=Rayensql;PWD=esprit25;");
+
     if (db.open())
     {
         test = true;
@@ -21,4 +22,5 @@ bool Connection::createconnect()
     }
     return test;
 }
+
 

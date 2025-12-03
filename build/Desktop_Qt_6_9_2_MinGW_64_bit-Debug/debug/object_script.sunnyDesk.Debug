@@ -7,7 +7,9 @@ debug/mainwindow.o
 debug/connection.o
 debug/matriel.o
 debug/participant.o
+debug/qrcodegen.o
 debug/sponsor.o
+debug/statistiques.o
 debug/qrc_resources.o
 debug/moc_createaccount.o
 debug/moc_employe.o
@@ -17,3 +19,4 @@ debug/moc_mainwindow.o
 debug/moc_matriel.o
 debug/moc_participant.o
 debug/moc_sponsor.o
+debug/moc_statistiques.o

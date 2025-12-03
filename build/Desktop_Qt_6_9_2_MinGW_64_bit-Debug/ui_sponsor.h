@@ -43,6 +43,13 @@ public:
     QLineEdit *prcnt;
     QLabel *label_4;
     QComboBox *comboBox;
+    QLineEdit *dest;
+    QPushButton *send_mail;
+    QLabel *label_5;
+    QPushButton *stat;
+    QPushButton *Qrcode;
+    QLineEdit *IDEMAIL;
+    QPushButton *pdf;
 
     void setupUi(QWidget *Sponsor)
     {
@@ -54,28 +61,28 @@ public:
         backButton->setGeometry(QRect(1220, 620, 90, 29));
         rechID = new QPushButton(Sponsor);
         rechID->setObjectName("rechID");
-        rechID->setGeometry(QRect(990, 480, 131, 61));
+        rechID->setGeometry(QRect(860, 20, 201, 41));
         tabMAT = new QTableView(Sponsor);
         tabMAT->setObjectName("tabMAT");
-        tabMAT->setGeometry(QRect(500, 60, 611, 401));
+        tabMAT->setGeometry(QRect(480, 80, 611, 401));
         supprimerMat = new QPushButton(Sponsor);
         supprimerMat->setObjectName("supprimerMat");
-        supprimerMat->setGeometry(QRect(240, 480, 131, 61));
+        supprimerMat->setGeometry(QRect(230, 460, 131, 61));
         recherch_id = new QLineEdit(Sponsor);
         recherch_id->setObjectName("recherch_id");
-        recherch_id->setGeometry(QRect(850, 500, 131, 31));
+        recherch_id->setGeometry(QRect(660, 30, 131, 31));
         ajoutMat = new QPushButton(Sponsor);
         ajoutMat->setObjectName("ajoutMat");
-        ajoutMat->setGeometry(QRect(100, 340, 131, 61));
+        ajoutMat->setGeometry(QRect(90, 320, 131, 61));
         modifierMat = new QPushButton(Sponsor);
         modifierMat->setObjectName("modifierMat");
-        modifierMat->setGeometry(QRect(250, 340, 131, 61));
+        modifierMat->setGeometry(QRect(230, 320, 131, 61));
         afficherMar = new QPushButton(Sponsor);
         afficherMar->setObjectName("afficherMar");
-        afficherMar->setGeometry(QRect(500, 470, 131, 61));
+        afficherMar->setGeometry(QRect(230, 390, 131, 61));
         idMAT_Delete = new QLineEdit(Sponsor);
         idMAT_Delete->setObjectName("idMAT_Delete");
-        idMAT_Delete->setGeometry(QRect(80, 490, 131, 31));
+        idMAT_Delete->setGeometry(QRect(80, 470, 131, 31));
         groupBox = new QGroupBox(Sponsor);
         groupBox->setObjectName("groupBox");
         groupBox->setGeometry(QRect(90, 30, 351, 271));
@@ -107,6 +114,27 @@ public:
         comboBox->addItem(QString());
         comboBox->setObjectName("comboBox");
         comboBox->setGeometry(QRect(140, 110, 82, 28));
+        dest = new QLineEdit(Sponsor);
+        dest->setObjectName("dest");
+        dest->setGeometry(QRect(1110, 110, 181, 31));
+        send_mail = new QPushButton(Sponsor);
+        send_mail->setObjectName("send_mail");
+        send_mail->setGeometry(QRect(1120, 160, 131, 61));
+        label_5 = new QLabel(Sponsor);
+        label_5->setObjectName("label_5");
+        label_5->setGeometry(QRect(530, 510, 161, 141));
+        stat = new QPushButton(Sponsor);
+        stat->setObjectName("stat");
+        stat->setGeometry(QRect(90, 530, 131, 61));
+        Qrcode = new QPushButton(Sponsor);
+        Qrcode->setObjectName("Qrcode");
+        Qrcode->setGeometry(QRect(790, 550, 131, 61));
+        IDEMAIL = new QLineEdit(Sponsor);
+        IDEMAIL->setObjectName("IDEMAIL");
+        IDEMAIL->setGeometry(QRect(1120, 70, 151, 28));
+        pdf = new QPushButton(Sponsor);
+        pdf->setObjectName("pdf");
+        pdf->setGeometry(QRect(970, 550, 131, 61));
 
         retranslateUi(Sponsor);
 
@@ -132,6 +160,13 @@ public:
         comboBox->setItemText(2, QCoreApplication::translate("Sponsor", "3", nullptr));
         comboBox->setItemText(3, QCoreApplication::translate("Sponsor", "4", nullptr));
 
+        dest->setPlaceholderText(QCoreApplication::translate("Sponsor", "@ destinataire", nullptr));
+        send_mail->setText(QCoreApplication::translate("Sponsor", "Rappeler ", nullptr));
+        label_5->setText(QString());
+        stat->setText(QCoreApplication::translate("Sponsor", "Statistiques", nullptr));
+        Qrcode->setText(QCoreApplication::translate("Sponsor", "Qrcode", nullptr));
+        IDEMAIL->setPlaceholderText(QCoreApplication::translate("Sponsor", "ID", nullptr));
+        pdf->setText(QCoreApplication::translate("Sponsor", "PDF", nullptr));
     } // retranslateUi
 
 };

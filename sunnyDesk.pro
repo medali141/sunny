@@ -1,4 +1,8 @@
-QT       += core gui sql widgets printsupport charts
+QT       += core gui sql charts
+QT       += network
+QT += core gui widgets sql printsupport
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++17
 
@@ -12,7 +16,9 @@ SOURCES += \
     connection.cpp \
     matriel.cpp \
     participant.cpp \
-    sponsor.cpp
+    qrcodegen.cpp \
+    sponsor.cpp \
+    statistiques.cpp
 
 HEADERS += \
     createaccount.h \
@@ -23,7 +29,9 @@ HEADERS += \
     connection.h \
     matriel.h \
     participant.h \
-    sponsor.h
+    qrcodegen.hpp \
+    sponsor.h \
+    statistiques.h
 
 FORMS += \
     createaccount.ui \
@@ -33,7 +41,8 @@ FORMS += \
     mainwindow.ui \
     matriel.ui \
     participant.ui \
-    sponsor.ui
+    sponsor.ui \
+    statistiques.ui
 
 RESOURCES += resources.qrc
 
@@ -44,3 +53,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     SunnyDesk.qss
+
+RESOURCES += \
+    resources.qrc

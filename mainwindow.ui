@@ -59,7 +59,7 @@
      <item>
       <widget class="QPushButton" name="matrielButton">
        <property name="text">
-        <string>Matriel</string>
+        <string>Materiel</string>
        </property>
       </widget>
      </item>
@@ -73,14 +73,14 @@
      <item>
       <widget class="QPushButton" name="eventButton">
        <property name="text">
-        <string>event</string>
+        <string>Evenement</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="sponsorButton">
        <property name="text">
-        <string>sponsor</string>
+        <string>Sponsor</string>
        </property>
       </widget>
      </item>
