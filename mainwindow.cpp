@@ -14,13 +14,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    // Appliquer l'image de fond
     QPixmap bkgnd(":/images/rs/background.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Window, bkgnd);
     this->setPalette(palette);
+
 }
 
 MainWindow::~MainWindow()
@@ -62,10 +61,10 @@ void MainWindow::on_participantButton_clicked()
     p->show();
     this->hide();
 }
-
 void MainWindow::on_logoutButton_clicked()
 {
     Login *loginWindow = new Login();
     loginWindow->show();
-    this->close();
+    this->close();  // close dashboard
 }
+

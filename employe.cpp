@@ -47,6 +47,7 @@
 // ========================================
 // CONSTRUCTEUR ET DESTRUCTEUR
 // ========================================
+ 
 
 Employe::Employe(QWidget *parent) :
     QWidget(parent),
@@ -54,22 +55,22 @@ Employe::Employe(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // Afficher tous les employés initialement
-    ui->tabMAT->setModel(afficher());
 
-    // Appliquer l'image de fond
+    // Display all employees initially
+    ui->tabMAT->setModel(afficher());
     QPixmap bkgnd(":/images/rs/background.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Window, bkgnd);
     this->setPalette(palette);
-
+ 
     // Connexions manuelles des boutons
     connect(ui->statistiquesButton, &QPushButton::clicked, this, &Employe::on_statistiquesButton_clicked);
     connect(ui->assignationAutoButton, &QPushButton::clicked, this, &Employe::on_assignationAutoButton_clicked);
     connect(ui->congesButton, &QPushButton::clicked, this, &Employe::on_congesButton_clicked);
     connect(ui->exportPdfButton, &QPushButton::clicked, this, &Employe::on_exportPdfButton_clicked);
 
+ 
 }
 
 Employe::~Employe()
@@ -77,10 +78,7 @@ Employe::~Employe()
     delete ui;
 }
 
-// ========================================
-// NAVIGATION
-// ========================================
-
+// --- Back button ---
 void Employe::on_backButton_clicked()
 {
     MainWindow *mw = new MainWindow();
@@ -88,10 +86,7 @@ void Employe::on_backButton_clicked()
     this->close();
 }
 
-// ========================================
-// OPÉRATIONS CRUD - AJOUT
-// ========================================
-
+// --- Add ---
 bool Employe::ajouter()
 {
     QSqlQuery query;
@@ -114,7 +109,7 @@ void Employe::on_ajoutMat_clicked()
     QString email = ui->email->text().trimmed();
     QString statut = ui->statut_dem->text().trimmed();
 
-    // Validation
+    // --- Validation ---
     if (id.isEmpty() || nom.isEmpty() || poste.isEmpty() || email.isEmpty() || statut.isEmpty()) {
         QMessageBox::warning(this, "Erreur", "Tous les champs doivent être remplis !");
         return;
@@ -136,7 +131,7 @@ void Employe::on_ajoutMat_clicked()
         return;
     }
 
-    // Ajout
+    // --- si tout est OK ---
     if (ajouter()) {
         QMessageBox::information(this, "Succès", "Employé ajouté avec succès !");
         ui->tabMAT->setModel(afficher());
@@ -145,10 +140,7 @@ void Employe::on_ajoutMat_clicked()
     }
 }
 
-// ========================================
-// OPÉRATIONS CRUD - MODIFICATION
-// ========================================
-
+// --- Modify ---
 bool Employe::modifier()
 {
     QSqlQuery query;
@@ -171,7 +163,7 @@ void Employe::on_modifierMat_clicked()
     QString email = ui->email->text().trimmed();
     QString statut = ui->statut_dem->text().trimmed();
 
-    // Validation
+    // --- Validation ---
     if (id.isEmpty()) {
         QMessageBox::warning(this, "Erreur", "ID est obligatoire pour la modification !");
         return;
@@ -182,8 +174,8 @@ void Employe::on_modifierMat_clicked()
         return;
     }
 
-    if (statut.toLower() != "passe" && statut.toLower() != "en attente") {
-        QMessageBox::warning(this, "Erreur", "Le statut doit être 'passe' ou 'en attente' !");
+    if (statut.toLower() != "approuvé" && statut.toLower() != "en attente") {
+        QMessageBox::warning(this, "Erreur", "Le statut doit être 'approuvé' ou 'en attente' !");
         return;
     }
 
@@ -201,10 +193,7 @@ void Employe::on_modifierMat_clicked()
     }
 }
 
-// ========================================
-// OPÉRATIONS CRUD - SUPPRESSION
-// ========================================
-
+// --- Delete ---
 bool Employe::supprimer()
 {
     QSqlQuery query;
@@ -229,15 +218,13 @@ void Employe::on_supprimerMat_clicked()
     }
 }
 
-// ========================================
-// OPÉRATIONS CRUD - AFFICHAGE
-// ========================================
-
+// --- Display all ---
 void Employe::on_afficherMar_clicked()
 {
     ui->tabMAT->setModel(afficher());
 }
 
+// --- Display ---
 QSqlQueryModel* Employe::afficher()
 {
     QSqlQueryModel* model = new QSqlQueryModel();
@@ -250,10 +237,7 @@ QSqlQueryModel* Employe::afficher()
     return model;
 }
 
-// ========================================
-// OPÉRATIONS CRUD - RECHERCHE
-// ========================================
-
+// --- Search ---
 QSqlQueryModel* Employe::rechercher()
 {
     QString id = ui->recherch_id->text().trimmed();
@@ -1553,3 +1537,4 @@ void Employe::on_exportPdfButton_clicked()
     QMessageBox::information(this, "Succès",
                              QString("PDF généré avec succès !\n%1 employé(s) exporté(s).").arg(rowIndex));
 }
+ 
