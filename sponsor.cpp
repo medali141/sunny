@@ -398,12 +398,12 @@ void Sponsor::on_Qrcode_clicked()
     );
 }
 
-
 void Sponsor::on_stat_clicked()
 {
-
+    Statistiques *statDialog = new Statistiques(this);
+    statDialog->exec();
+    delete statDialog;
 }
-
 
 
 void Sponsor::on_pdf_clicked()
