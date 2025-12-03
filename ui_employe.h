@@ -44,6 +44,10 @@ public:
     QPushButton *ajoutMat;
     QLineEdit *recherch_id;
     QLineEdit *idMAT_Delete;
+    QPushButton *statistiquesButton;
+    QPushButton *exportPdfButton;
+    QPushButton *assignationAutoButton;
+    QPushButton *congesButton;
 
     void setupUi(QWidget *Employe)
     {
@@ -113,6 +117,19 @@ public:
         idMAT_Delete->setObjectName("idMAT_Delete");
         idMAT_Delete->setGeometry(QRect(50, 500, 131, 31));
 
+        statistiquesButton = new QPushButton(Employe);
+        statistiquesButton->setObjectName("statistiquesButton");
+        statistiquesButton->setGeometry(QRect(620, 480, 131, 61));
+        exportPdfButton = new QPushButton(Employe);
+        exportPdfButton->setObjectName("exportPdfButton");
+        exportPdfButton->setGeometry(QRect(1110, 490, 131, 61));
+        assignationAutoButton = new QPushButton(Employe);
+        assignationAutoButton->setObjectName("assignationAutoButton");
+        assignationAutoButton->setGeometry(QRect(1140, 90, 131, 61));
+        congesButton = new QPushButton(Employe);
+        congesButton->setObjectName("congesButton");
+        congesButton->setGeometry(QRect(1140, 170, 131, 61));
+
         retranslateUi(Employe);
 
         QMetaObject::connectSlotsByName(Employe);
@@ -134,6 +151,10 @@ public:
         label_5->setText(QCoreApplication::translate("Employe", "statut_dem", nullptr));
         afficherMar->setText(QCoreApplication::translate("Employe", "Affichage", nullptr));
         ajoutMat->setText(QCoreApplication::translate("Employe", "Ajouter", nullptr));
+        statistiquesButton->setText(QCoreApplication::translate("Employe", "Statistique", nullptr));
+        exportPdfButton->setText(QCoreApplication::translate("Employe", "Exporter en PDF", nullptr));
+        assignationAutoButton->setText(QCoreApplication::translate("Employe", "Assignation Auto", nullptr));
+        congesButton->setText(QCoreApplication::translate("Employe", "Gestion des Congés", nullptr));
     } // retranslateUi
 
 };

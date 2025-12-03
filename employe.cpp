@@ -1301,6 +1301,7 @@ QSqlQueryModel* Employe::getHistoriqueConges()
     delete dernierResultat;
 }
 
+
 void Employe::on_exportPdfButton_clicked()
 {
     QString filePath = QFileDialog::getSaveFileName(
@@ -1537,4 +1538,5 @@ void Employe::on_exportPdfButton_clicked()
     QMessageBox::information(this, "Succès",
                              QString("PDF généré avec succès !\n%1 employé(s) exporté(s).").arg(rowIndex));
 }
- 
+
+
