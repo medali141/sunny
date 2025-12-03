@@ -53,6 +53,8 @@ private slots:
     void on_assignationAutoButton_clicked();
     void on_congesButton_clicked();
 
+    void on_exportPdfButton_clicked();
+
 private:
     Ui::Employe *ui;
 

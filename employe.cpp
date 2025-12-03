@@ -32,6 +32,17 @@
 #include <QScrollArea>
 #include <QDateTime>
 #include <algorithm>
+#include <QPdfWriter>
+#include <QPainter>
+#include <QFileDialog>
+#include <QPdfWriter>
+#include <QPainter>
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QSqlQuery>
+#include <QSqlRecord>
+#include <QSqlError>
+#include <QDateTime>
 
 // ========================================
 // CONSTRUCTEUR ET DESTRUCTEUR
@@ -57,6 +68,8 @@ Employe::Employe(QWidget *parent) :
     connect(ui->statistiquesButton, &QPushButton::clicked, this, &Employe::on_statistiquesButton_clicked);
     connect(ui->assignationAutoButton, &QPushButton::clicked, this, &Employe::on_assignationAutoButton_clicked);
     connect(ui->congesButton, &QPushButton::clicked, this, &Employe::on_congesButton_clicked);
+    connect(ui->exportPdfButton, &QPushButton::clicked, this, &Employe::on_exportPdfButton_clicked);
+
 }
 
 Employe::~Employe()
@@ -1302,4 +1315,241 @@ QSqlQueryModel* Employe::getHistoriqueConges()
     dialog->exec();
 
     delete dernierResultat;
+}
+
+void Employe::on_exportPdfButton_clicked()
+{
+    QString filePath = QFileDialog::getSaveFileName(
+        this,
+        "Enregistrer PDF",
+        "employes.pdf",
+        "Fichier PDF (*.pdf)"
+        );
+
+    if (filePath.isEmpty())
+        return;
+
+    QPdfWriter pdf(filePath);
+    pdf.setPageSize(QPageSize(QPageSize::A4));
+    pdf.setResolution(300);
+
+    QPainter painter(&pdf);
+    if (!painter.isActive()) {
+        QMessageBox::warning(this, "Erreur", "Impossible de créer le PDF !");
+        return;
+    }
+
+    // ============ Configuration des dimensions ============
+    int pageWidth = pdf.width();
+    int pageHeight = pdf.height();
+    int margin = 600;
+    int contentWidth = pageWidth - (2 * margin);
+
+    // Récupérer le nombre de colonnes
+    QSqlQuery countQuery;
+    countQuery.prepare("SELECT ID_EMPLOYE, NOM, POSTE, STATUT_DEM FROM EMPLOYE");
+
+    int numColumns = 0;
+    QStringList columnNames;
+
+    if (!countQuery.exec()) {
+        painter.end();
+        QMessageBox::warning(this, "Erreur", "Erreur SQL: " + countQuery.lastError().text());
+        return;
+    }
+
+    QSqlRecord record = countQuery.record();
+    numColumns = record.count();
+
+    if (numColumns == 0) {
+        painter.end();
+        QMessageBox::warning(this, "Erreur", "Aucune colonne trouvée dans la table EMPLOYE !");
+        return;
+    }
+
+    // Noms de colonnes personnalisés
+    columnNames << "ID EMPLOYÉ" << "NOM" << "POSTE" << "STATUT DÉMISSION";
+
+    // ========== CORRECTION PRINCIPALE : Largeurs optimisées ==========
+    QVector<double> colWidths;
+    colWidths << 0.25 << 0.25 << 0.25 << 0.25;  // ID, NOM, POSTE, STATUT (total = 1.00)
+
+    // Calcul des positions des colonnes
+    QVector<int> colPositions;
+    int currentPos = margin;
+    colPositions.append(currentPos);
+
+    for (int i = 0; i < numColumns - 1; i++) {
+        currentPos += contentWidth * colWidths[i];
+        colPositions.append(currentPos);
+    }
+
+    // Hauteurs
+    int rowHeight = 200;
+    int headerHeight = 240;
+
+    // ============ Couleurs ============
+    QColor headerBg(41, 128, 185);
+    QColor rowAltBg(236, 240, 241);
+    QColor borderColor(189, 195, 199);
+    QColor textDark(44, 62, 80);
+
+    // ============ Position de départ ============
+    int currentY = margin;
+
+    // ============ TITRE PRINCIPAL ============
+    painter.setFont(QFont("Arial", 24, QFont::Bold));
+    painter.setPen(textDark);
+    painter.drawText(margin, currentY, contentWidth, 300,
+                     Qt::AlignCenter, "LISTE DES EMPLOYÉS");
+    currentY += 450;
+
+    // Ligne décorative sous le titre
+    painter.setPen(QPen(headerBg, 6));
+    painter.drawLine(margin + contentWidth/3, currentY,
+                     margin + 2*contentWidth/3, currentY);
+    currentY += 300;
+
+    int tableStartY = currentY;
+
+    // ============ FONCTION POUR DESSINER L'EN-TÊTE ============
+    auto drawHeader = [&]() {
+        painter.fillRect(margin, currentY, contentWidth, headerHeight, headerBg);
+        painter.setPen(QPen(headerBg.darker(120), 4));
+        painter.drawRect(margin, currentY, contentWidth, headerHeight);
+
+        painter.setFont(QFont("Arial", 11, QFont::Bold));
+        painter.setPen(Qt::white);
+
+        for (int i = 0; i < numColumns; i++) {
+            int colActualWidth = (i < numColumns - 1)
+            ? colPositions[i + 1] - colPositions[i]
+            : (margin + contentWidth) - colPositions[i];
+
+            // ========== Plus de marge intérieure ==========
+            QRect headerRect(colPositions[i] + 25, currentY, colActualWidth - 50, headerHeight);
+            painter.drawText(headerRect, Qt::AlignLeft | Qt::AlignVCenter, columnNames[i]);
+
+            if (i > 0) {
+                painter.drawLine(colPositions[i], currentY, colPositions[i], currentY + headerHeight);
+            }
+        }
+        currentY += headerHeight;
+    };
+
+    // Dessiner l'en-tête initial
+    drawHeader();
+
+    // ============ DONNÉES DU TABLEAU ============
+    painter.setFont(QFont("Arial", 10));
+    painter.setPen(textDark);
+
+    QSqlQuery query;
+    query.prepare("SELECT ID_EMPLOYE, NOM, POSTE, STATUT_DEM FROM EMPLOYE ORDER BY ID_EMPLOYE");
+
+    if (!query.exec()) {
+        painter.end();
+        QMessageBox::warning(this, "Erreur", "Erreur lors de la récupération des données: " + query.lastError().text());
+        return;
+    }
+
+    int rowIndex = 0;
+
+    while (query.next())
+    {
+        // Vérifier si on doit créer une nouvelle page
+        if (currentY + rowHeight > pageHeight - margin - 200) {
+            painter.setPen(QPen(borderColor, 3));
+            painter.drawRect(margin, tableStartY, contentWidth, currentY - tableStartY);
+
+            pdf.newPage();
+            currentY = margin;
+            tableStartY = currentY;
+
+            drawHeader();
+
+            painter.setFont(QFont("Arial", 10));
+            painter.setPen(textDark);
+            rowIndex = 0;
+        }
+
+        // Alternance de couleur pour les lignes
+        if (rowIndex % 2 == 1) {
+            painter.fillRect(margin, currentY, contentWidth, rowHeight, rowAltBg);
+        }
+
+        // Bordure horizontale
+        painter.setPen(QPen(borderColor, 2));
+        painter.drawLine(margin, currentY + rowHeight,
+                         margin + contentWidth, currentY + rowHeight);
+
+        // Texte des cellules
+        painter.setPen(textDark);
+        for (int i = 0; i < numColumns; i++) {
+            QString value = query.value(i).toString();
+
+            // ========== Raccourcir intelligemment le statut ==========
+            if (i == 3) {  // Colonne STATUT
+                if (value.contains("attente", Qt::CaseInsensitive)) {
+                    value = "En attente";
+                } else if (value.contains("accept", Qt::CaseInsensitive) || value.contains("approuv", Qt::CaseInsensitive)) {
+                    value = "Acceptée";
+                } else if (value.contains("refus", Qt::CaseInsensitive)) {
+                    value = "Refusée";
+                } else if (value.contains("passe", Qt::CaseInsensitive) || value.isEmpty()) {
+                    value = "Passé";
+                }
+            }
+
+            int colActualWidth = (i < numColumns - 1)
+                                     ? colPositions[i + 1] - colPositions[i]
+                                     : (margin + contentWidth) - colPositions[i];
+
+            // ========== Gestion du texte trop long avec plus de marge ==========
+            QFontMetrics fm(painter.font());
+            QString displayValue = value;
+            int availableWidth = colActualWidth - 50;  // Plus de marge (25 de chaque côté)
+
+            if (fm.horizontalAdvance(value) > availableWidth) {
+                displayValue = fm.elidedText(value, Qt::ElideRight, availableWidth);
+            }
+
+            QRect cellRect(colPositions[i] + 25, currentY, colActualWidth - 50, rowHeight);
+            painter.drawText(cellRect, Qt::AlignLeft | Qt::AlignVCenter, displayValue);
+
+            // Séparateurs verticaux
+            if (i > 0) {
+                painter.setPen(QPen(borderColor, 2));
+                painter.drawLine(colPositions[i], currentY, colPositions[i], currentY + rowHeight);
+                painter.setPen(textDark);
+            }
+        }
+
+        currentY += rowHeight;
+        rowIndex++;
+    }
+
+    // ============ BORDURE FINALE DU TABLEAU ============
+    painter.setPen(QPen(borderColor, 3));
+    painter.drawRect(margin, tableStartY, contentWidth, currentY - tableStartY);
+
+    painter.drawLine(margin, tableStartY, margin, currentY);
+    painter.drawLine(margin + contentWidth, tableStartY, margin + contentWidth, currentY);
+
+    // ============ PIED DE PAGE ============
+    currentY = pageHeight - margin + 100;
+    painter.setFont(QFont("Arial", 9));
+    painter.setPen(QColor(127, 140, 141));
+
+    QString footerText = QString("Document généré le %1 | Total: %2 employé(s)")
+                             .arg(QDateTime::currentDateTime().toString("dd/MM/yyyy à HH:mm"))
+                             .arg(rowIndex);
+
+    painter.drawText(margin, currentY, contentWidth, 100,
+                     Qt::AlignCenter, footerText);
+
+    painter.end();
+
+    QMessageBox::information(this, "Succès",
+                             QString("PDF généré avec succès !\n%1 employé(s) exporté(s).").arg(rowIndex));
 }
