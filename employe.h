@@ -24,6 +24,14 @@ private slots:
     void on_afficherMar_clicked();  // Display all
     void on_rechID_clicked();
 
+ 
+    // Slots pour les fonctionnalités métier
+    void on_statistiquesButton_clicked();
+    void on_assignationAutoButton_clicked();
+    void on_congesButton_clicked();
+
+    void on_exportPdfButton_clicked();
+ 
 private:
     Ui::Employe *ui;
 
