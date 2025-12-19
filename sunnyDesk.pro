@@ -1,29 +1,35 @@
 QT       += core gui sql charts
 QT       += network
 QT += core gui widgets sql printsupport
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += serialport
 
 CONFIG += c++17
 
 SOURCES += \
+    ard.cpp \
     createaccount.cpp \
     employe.cpp \
     event.cpp \
+    flamehistory.cpp \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
     connection.cpp \
     matriel.cpp \
     participant.cpp \
-    qrcodegen.cpp \
     sponsor.cpp \
-    statistiques.cpp
+    qrcodegen.cpp \
+    statistiques.cpp \
+    evenement.cpp \
+    meteoassistant.cpp
+
 
 HEADERS += \
+    ard.h \
     createaccount.h \
     employe.h \
     event.h \
+    flamehistory.h \
     login.h \
     mainwindow.h \
     connection.h \
@@ -31,17 +37,20 @@ HEADERS += \
     participant.h \
     qrcodegen.hpp \
     sponsor.h \
-    statistiques.h
+    statistiques.h \
+    evenement.h \
+    meteoassistant.h
 
 FORMS += \
     createaccount.ui \
     employe.ui \
     event.ui \
+    flamehistory.ui \
     login.ui \
     mainwindow.ui \
     matriel.ui \
     participant.ui \
-    sponsor.ui \
+    sponsor.ui\
     statistiques.ui
 
 RESOURCES += resources.qrc
@@ -53,6 +62,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     SunnyDesk.qss
-
-RESOURCES += \
-    resources.qrc

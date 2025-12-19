@@ -156,6 +156,17 @@ QWidget#Event{
 }
 
 
+QMainWindow {
+    background: none;
+}
+QPushButton#flameHistoryButton {
+    background-color: #FF9800;
+    color: black;
+    font-weight: bold;
+    border-radius: 8px;
+    padding: 6px 12px;
+}
+
 
 
 
