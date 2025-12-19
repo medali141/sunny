@@ -33,33 +33,20 @@
      <string>logout</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>320</x>
-      <y>-150</y>
-      <width>991</width>
-      <height>411</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:72pt;&quot;&gt;                                                                                  sunny desk &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>140</x>
       <y>140</y>
-      <width>971</width>
-      <height>91</height>
+      <width>1067</width>
+      <height>162</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="matrielButton">
        <property name="text">
-        <string>Materiel</string>
+        <string>Matriel</string>
        </property>
       </widget>
      </item>
@@ -73,14 +60,14 @@
      <item>
       <widget class="QPushButton" name="eventButton">
        <property name="text">
-        <string>Evenement</string>
+        <string>event</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="sponsorButton">
        <property name="text">
-        <string>Sponsor</string>
+        <string>sponsor</string>
        </property>
       </widget>
      </item>
@@ -92,6 +79,19 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>30</y>
+      <width>624</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:72pt;&quot;&gt;                                                                                  sunny desk &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

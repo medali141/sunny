@@ -1,0 +1,162 @@
+/* ------------------------------
+   SunnyDesk Global Stylesheet
+   Theme: Yellow / Black / Grey
+   ------------------------------ */
+
+/* ---------- General Widget Styling ---------- */
+QWidget {
+    background-color: #FFFFFF;   /* Light grey background */
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 12pt;
+    color: #000000;
+}
+
+/* ---------- QPushButton ---------- */
+QPushButton {
+    background-color: #FFD700; /* Yellow */
+    color: #000000;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #FFC300; /* Darker yellow */
+}
+
+QPushButton:pressed {
+    background-color: #FFB000; /* Even darker yellow */
+}
+
+/* ---------- QLineEdit & QComboBox ---------- */
+QLineEdit, QComboBox {
+    padding: 4px 6px;
+    margin: 4px;
+    border-radius: 4px;
+    border: 1px solid #B0B0B0;
+    background-color: #FFFFFF;
+}
+
+/* ---------- QTableView ---------- */
+QTableView {
+    background-color: #E0E0E0;
+    alternate-background-color: #D0D0D0;
+    gridline-color: #B0B0B0;
+    selection-background-color: #FFD700;
+    selection-color: #000000;
+    border: 1px solid #B0B0B0;
+}
+
+/* ---------- QHeaderView (Table Headers) ---------- */
+QHeaderView::section {
+    background-color: #B0B0B0;
+    color: #000000;
+    font-weight: bold;
+    border: 1px solid #A0A0A0;
+}
+
+/* ---------- QScrollBar ---------- */
+QScrollBar:vertical {
+    background: #D0D0D0;
+    width: 12px;
+}
+
+QScrollBar::handle:vertical {
+    background: #FFD700;
+    border-radius: 5px;
+}
+
+QScrollBar::add-line, QScrollBar::sub-line {
+    background: none;
+}
+
+/* ---------- QGroupBox ---------- */
+QGroupBox {
+    border: 2px solid #000000;
+    border-radius: 10px;
+    margin-top: 1em;
+    background-color: #F5F5F5;
+}
+
+QGroupBox:title {
+    subcontrol-origin: margin;
+    subcontrol-position: top center;
+    color: #000000;
+    font-weight: bold;
+}
+
+/* ---------- QComboBox Dropdown Arrow ---------- */
+QComboBox::down-arrow {
+    image: url(:/icons/down_arrow.png);
+}
+
+/* ---------- QLabel ---------- */
+QLabel {
+    color: #000000;
+}
+
+/* ---------- QMenuBar & QMenu (Optional) ---------- */
+QMenuBar {
+    background-color: #E0E0E0;
+}
+
+QMenuBar::item:selected {
+    background-color: #FFD700;
+}
+
+QMenu {
+    background-color: #E0E0E0;
+    border: 1px solid #B0B0B0;
+}
+
+QMenu::item:selected {
+    background-color: #FFD700;
+}
+
+/* ---------- ToolTip ---------- */
+QToolTip {
+    background-color: #FFD700;
+    color: #000000;
+    border: 1px solid #000000;
+}
+
+QWidget#Login {
+    background: none;
+}
+QWidget#Employe{
+
+    background: none;
+
+
+}
+QWidget#Matriel{
+
+    background: none;
+
+
+}
+QWidget#Sponsor{
+
+    background: none;
+
+
+}
+QWidget#Participant{
+
+    background: none;
+
+
+}
+QWidget#Event{
+
+    background: none;
+
+
+}
+
+
+
+
+
+
